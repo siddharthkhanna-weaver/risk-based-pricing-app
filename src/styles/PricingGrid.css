@@ -1,0 +1,59 @@
+.pricing-grid-wrapper {
+  margin-top: 8px;
+}
+
+.pricing-grid-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.pricing-grid {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  min-width: 600px;
+}
+
+.pricing-grid th,
+.pricing-grid td {
+  border: 1px solid var(--gray-200);
+  padding: 8px 12px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.pricing-grid thead th {
+  background: var(--gray-50);
+  font-weight: 600;
+  color: var(--gray-700);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.pricing-grid .profile-cell {
+  text-align: left;
+  font-weight: 500;
+  color: var(--gray-800);
+  background: white;
+}
+
+.pricing-grid .rate-cell {
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  font-weight: 500;
+  color: var(--gray-700);
+}
+
+.pricing-grid .na-cell {
+  color: var(--gray-400);
+  font-style: italic;
+  background: var(--gray-50);
+}
+
+.pricing-grid tbody tr:hover {
+  background: var(--primary-light);
+}
+
+.pricing-grid tbody tr:hover .na-cell {
+  background: var(--primary-light);
+}

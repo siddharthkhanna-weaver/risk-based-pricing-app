@@ -44,7 +44,7 @@
 
 .result-right .roi-final {
   padding: 7px 12px;
-  margin-bottom: 4px;
+  margin-bottom: 16px;
 }
 
 .result-right .roi-value {
@@ -72,6 +72,7 @@
 
 .result-right .breakdown-row.main {
   font-size: 13px;
+  padding-left: 12px;
 }
 
 .result-right .breakdown-detail {
@@ -79,7 +80,11 @@
 }
 
 .result-right .rack-rate-section {
-  padding: 4px 10px;
+  padding: 4px 10px 4px 0;
+}
+
+.result-right .rack-rate-section .breakdown-row.main {
+  padding-left: 12px;
 }
 
 .deal-summary-card {

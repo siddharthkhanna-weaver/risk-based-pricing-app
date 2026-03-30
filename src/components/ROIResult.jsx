@@ -29,7 +29,6 @@ export default function ROIResult({ result, compact }) {
             <span>Base Rate</span>
             <span className="rate">{result.baseRate.toFixed(2)}%</span>
           </div>
-          <div className="breakdown-detail">{result.baseRateSource}</div>
         </div>
 
         <div className="breakdown-section">
@@ -41,12 +40,11 @@ export default function ROIResult({ result, compact }) {
                 : '0.00%'}
             </span>
           </div>
-          <div className="breakdown-detail">{result.specialPricing.label}</div>
         </div>
 
         <div className="breakdown-section rack-rate-section">
           <div className="breakdown-row main">
-            <span>Rack Rate (Base + Product Pricing)</span>
+            <span>Rack Rate</span>
             <span className="rate">{(result.baseRate + result.specialPricing.markup).toFixed(2)}%</span>
           </div>
         </div>

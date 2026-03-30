@@ -56,27 +56,51 @@ export default function ResultPage() {
 
             <div className="summary-section">
               <h5 className="summary-section-title">Applicant Details</h5>
-              {dealDetails.borrowers.map((b, i) => (
-                <div className="summary-row-inline" key={i}>
-                  <div className="summary-item">
-                    <span className="sg-label">Name</span>
-                    <span className="sg-value">{b.name}</span>
-                  </div>
-                  <div className="summary-item">
-                    <span className="sg-label">Profile</span>
-                    <span className="sg-value">{b.customerProfile}</span>
-                  </div>
-                  <div className="summary-item">
-                    <span className="sg-label">Income</span>
-                    <span className="sg-value">₹{Number(b.income).toLocaleString('en-IN')}</span>
-                  </div>
-                  <div className="summary-item">
-                    <span className="sg-label">CRIF</span>
-                    <span className="sg-value">{b.newToCredit ? 'NTC' : b.crifScore}</span>
-                  </div>
+              <div className="summary-row-inline" key={0}>
+                <div className="summary-item">
+                  <span className="sg-label">Name</span>
+                  <span className="sg-value">{dealDetails.borrowers[0].name}</span>
                 </div>
-              ))}
+                <div className="summary-item">
+                  <span className="sg-label">Profile</span>
+                  <span className="sg-value">{dealDetails.borrowers[0].customerProfile}</span>
+                </div>
+                <div className="summary-item">
+                  <span className="sg-label">Income</span>
+                  <span className="sg-value">₹{Number(dealDetails.borrowers[0].income).toLocaleString('en-IN')}</span>
+                </div>
+                <div className="summary-item">
+                  <span className="sg-label">CRIF</span>
+                  <span className="sg-value">{dealDetails.borrowers[0].newToCredit ? 'NTC' : dealDetails.borrowers[0].crifScore}</span>
+                </div>
+              </div>
             </div>
+
+            {dealDetails.borrowers.length > 1 && (
+              <div className="summary-section">
+                <h5 className="summary-section-title">Co-Applicant Details</h5>
+                {dealDetails.borrowers.slice(1, 3).map((b, i) => (
+                  <div className="summary-row-inline" key={i}>
+                    <div className="summary-item">
+                      <span className="sg-label">Name</span>
+                      <span className="sg-value">{b.name}</span>
+                    </div>
+                    <div className="summary-item">
+                      <span className="sg-label">Profile</span>
+                      <span className="sg-value">{b.customerProfile}</span>
+                    </div>
+                    <div className="summary-item">
+                      <span className="sg-label">Income</span>
+                      <span className="sg-value">₹{Number(b.income).toLocaleString('en-IN')}</span>
+                    </div>
+                    <div className="summary-item">
+                      <span className="sg-label">CRIF</span>
+                      <span className="sg-value">{b.newToCredit ? 'NTC' : b.crifScore}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
 
             <div className="summary-section">
               <h5 className="summary-section-title">Risk Factors</h5>

@@ -52,10 +52,10 @@ export const RISK_ADDON_CAP = 2.00;
 
 // Special Product Pricing
 export const SPECIAL_PRICING_RULES = [
-  { subProduct: 'Home Loan - Top Up', condition: (amt) => amt <= 1000000, markup: 1.00, label: '≤ 10,00,000' },
-  { subProduct: 'Home Loan - Top Up', condition: (amt) => amt > 1000000, markup: 2.00, label: '> 10,00,000' },
+  { subProduct: 'HL - Top Up', condition: (amt) => amt <= 1000000, markup: 1.00, label: '≤ 10,00,000' },
+  { subProduct: 'HL - Top Up', condition: (amt) => amt > 1000000, markup: 2.00, label: '> 10,00,000' },
   { subProduct: 'Plot + Construction', condition: (amt) => amt > 0, markup: 1.00, label: '> 0' },
-  { subProduct: 'Home Loan classified as NHL', condition: (amt) => amt > 0, markup: 0.50, label: '> 0' },
+  { subProduct: 'HL classified as NHL', condition: (amt) => amt > 0, markup: 0.50, label: '> 0' },
 ];
 
 // Product Master
@@ -64,20 +64,20 @@ export const PRODUCT_MASTER = [
   { product: 'Home Loan', subProduct: 'Extension / Improvement', pricingProduct: 'Home Loan' },
   { product: 'Home Loan', subProduct: 'Home Loan - BT', pricingProduct: 'Home Loan' },
   { product: 'Home Loan', subProduct: 'Plot + Construction', pricingProduct: 'Home Loan' },
-  { product: 'Non Home Loan', subProduct: 'Loan against Property', pricingProduct: 'Non Home Loan' },
-  { product: 'Non Home Loan', subProduct: 'Loan against Property - Top Up', pricingProduct: 'Non Home Loan' },
-  { product: 'Non Home Loan', subProduct: 'Loan against Property - BT', pricingProduct: 'Non Home Loan' },
-  { product: 'Non Home Loan', subProduct: 'Other Secured Loan', pricingProduct: 'Home Loan' },
-  { product: 'Non Home Loan', subProduct: 'Home Loan - Top Up', pricingProduct: 'Home Loan' },
-  { product: 'Non Home Loan', subProduct: 'Home Loan classified as NHL', pricingProduct: 'Home Loan' },
+  { product: 'Home Loan', subProduct: 'OSL', pricingProduct: 'Home Loan' },
+  { product: 'Home Loan', subProduct: 'HL - Top Up', pricingProduct: 'Home Loan' },
+  { product: 'Home Loan', subProduct: 'HL classified as NHL', pricingProduct: 'Home Loan' },
+  { product: 'Non Home Loan', subProduct: 'LAP', pricingProduct: 'Non Home Loan' },
+  { product: 'Non Home Loan', subProduct: 'LAP - Top Up', pricingProduct: 'Non Home Loan' },
+  { product: 'Non Home Loan', subProduct: 'LAP - BT', pricingProduct: 'Non Home Loan' },
   { product: 'Non Home Loan', subProduct: 'Non-Residential Premises (NRP)', pricingProduct: 'Non Home Loan' },
 ];
 
 // Branch Categories
 export const BRANCH_CATEGORIES = [
-  { value: 'Cat A', label: 'Cat A - Metro / Tier-1' },
-  { value: 'Cat B', label: 'Cat B - Tier-2' },
-  { value: 'Cat C', label: 'Cat C - Tier-3 / Rural' },
+  { value: 'Cat A', label: 'Cat A' },
+  { value: 'Cat B', label: 'Cat B' },
+  { value: 'Cat C', label: 'Cat C' },
 ];
 
 // Customer Profile front-end labels

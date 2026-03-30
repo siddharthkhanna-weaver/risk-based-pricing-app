@@ -41,6 +41,16 @@
   letter-spacing: 1px;
 }
 
+.roi-note {
+  display: block;
+  font-size: 11px;
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: normal;
+  opacity: 0.7;
+  margin-top: 2px;
+}
+
 .roi-value {
   font-size: 36px;
   font-weight: 800;
@@ -118,6 +128,17 @@
 
 .sub-breakdown .breakdown-detail {
   padding-left: 16px;
+}
+
+.rack-rate-section {
+  background: var(--primary-light);
+  padding: 12px 16px;
+  border-radius: var(--radius);
+  border-left: 3px solid var(--primary);
+}
+
+.rack-rate-section .breakdown-row.main {
+  color: var(--primary-dark);
 }
 
 .cap-note {

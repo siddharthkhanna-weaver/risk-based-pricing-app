@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { PRODUCT_MASTER, BRANCH_CATEGORIES, R2_DEVIATIONS } from '../data/pricingRules';
 import { calculateROI } from '../utils/calculator';
 import BorrowerForm from '../components/BorrowerForm';
-import ROIResult from '../components/ROIResult';
 import '../styles/NewDeal.css';
 
 const PRODUCTS = [...new Set(PRODUCT_MASTER.map((p) => p.product))];
@@ -12,9 +11,9 @@ function getSubProducts(product) {
   return PRODUCT_MASTER.filter((p) => p.product === product).map((p) => p.subProduct);
 }
 
-function emptyBorrower(name = '') {
+function emptyBorrower() {
   return {
-    name,
+    name: '',
     customerProfile: '',
     newToCredit: null,
     crifScore: '',
@@ -22,53 +21,37 @@ function emptyBorrower(name = '') {
   };
 }
 
-export default function NewDeal({ user }) {
+export default function NewDeal({ formData, setFormData, resetForm }) {
   const navigate = useNavigate();
-
-  // Case details
-  const [dealNumber, setDealNumber] = useState('');
-  const [applicantName, setApplicantName] = useState('');
-  const [loanAmount, setLoanAmount] = useState('');
-  const [product, setProduct] = useState('');
-  const [subProduct, setSubProduct] = useState('');
-  const [branchCategory, setBranchCategory] = useState('');
-
-  // Borrowers
-  const [borrowers, setBorrowers] = useState([emptyBorrower()]);
-
-  // Common risk factors
-  const [policyDeviations, setPolicyDeviations] = useState({});
-  const [propertyLocation, setPropertyLocation] = useState('');
-  const [ltvDeviation, setLtvDeviation] = useState(null);
-
-  // Result
-  const [result, setResult] = useState(null);
-  const [finalized, setFinalized] = useState(false);
   const [errors, setErrors] = useState([]);
+
+  const { dealNumber, applicantName, loanAmount, product, subProduct, branchCategory, borrowers, policyDeviations, propertyLocation, ltvDeviation } = formData;
+
+  const update = (field, value) => setFormData((prev) => ({ ...prev, [field]: value }));
 
   const subProducts = product ? getSubProducts(product) : [];
 
   const clearBankSalariedDeviation = (borrowerList) => {
     if (!borrowerList.some((b) => b.customerProfile === 'Bank Salaried')) {
-      setPolicyDeviations((prev) => ({ ...prev, bankSalariedWithoutStatutory: false }));
+      setFormData((prev) => ({ ...prev, policyDeviations: { ...prev.policyDeviations, bankSalariedWithoutStatutory: false } }));
     }
   };
 
   const updateBorrower = (index, updated) => {
     const next = [...borrowers];
     next[index] = updated;
-    setBorrowers(next);
+    setFormData((prev) => ({ ...prev, borrowers: next }));
     clearBankSalariedDeviation(next);
   };
 
   const removeBorrower = (index) => {
     const next = borrowers.filter((_, i) => i !== index);
-    setBorrowers(next);
+    setFormData((prev) => ({ ...prev, borrowers: next }));
     clearBankSalariedDeviation(next);
   };
 
   const addCoApplicant = () => {
-    setBorrowers([...borrowers, emptyBorrower()]);
+    setFormData((prev) => ({ ...prev, borrowers: [...prev.borrowers, emptyBorrower()] }));
   };
 
   const validate = () => {
@@ -98,7 +81,6 @@ export default function NewDeal({ user }) {
     const errs = validate();
     if (errs.length > 0) {
       setErrors(errs);
-      setResult(null);
       return;
     }
     setErrors([]);
@@ -119,38 +101,39 @@ export default function NewDeal({ user }) {
       ltvDeviation,
     });
 
-    setResult(res);
-  };
-
-  const handleFinalize = () => {
-    if (!result || result.error) return;
-    if (window.confirm('Are you sure you want to finalize this ROI? The deal will be locked and no further changes will be allowed.')) {
-      setFinalized(true);
+    if (res.error) {
+      setErrors([res.error]);
+      return;
     }
+
+    navigate('/result', {
+      state: {
+        result: res,
+        dealDetails: {
+          dealNumber,
+          applicantName,
+          loanAmount: parseFloat(loanAmount),
+          product,
+          subProduct,
+          branchCategory,
+          borrowers: borrowersWithNames,
+          policyDeviations,
+          propertyLocation,
+          ltvDeviation,
+        },
+      },
+    });
   };
 
   const handleReset = () => {
-    setDealNumber('');
-    setApplicantName('');
-    setLoanAmount('');
-    setProduct('');
-    setSubProduct('');
-    setBranchCategory('');
-    setBorrowers([emptyBorrower()]);
-    setPolicyDeviations({});
-    setPropertyLocation('');
-    setLtvDeviation(null);
-    setResult(null);
-    setFinalized(false);
+    resetForm();
     setErrors([]);
   };
 
   return (
     <div className="new-deal">
       <div className="page-header">
-        <button className="btn-back" onClick={() => navigate('/dashboard')}>← Dashboard</button>
         <h2>New Deal Calculation</h2>
-        {finalized && <span className="status-badge finalized">Finalized</span>}
       </div>
 
       {errors.length > 0 && (
@@ -170,8 +153,7 @@ export default function NewDeal({ user }) {
               type="text"
               placeholder="e.g. DL-2026-001"
               value={dealNumber}
-              onChange={(e) => setDealNumber(e.target.value)}
-              disabled={finalized}
+              onChange={(e) => update('dealNumber', e.target.value)}
             />
           </div>
           <div className="form-group">
@@ -180,8 +162,7 @@ export default function NewDeal({ user }) {
               type="text"
               placeholder="Full name"
               value={applicantName}
-              onChange={(e) => setApplicantName(e.target.value)}
-              disabled={finalized}
+              onChange={(e) => update('applicantName', e.target.value)}
             />
           </div>
           <div className="form-group">
@@ -191,8 +172,7 @@ export default function NewDeal({ user }) {
               min="0"
               placeholder="e.g. 2500000"
               value={loanAmount}
-              onChange={(e) => setLoanAmount(e.target.value)}
-              disabled={finalized}
+              onChange={(e) => update('loanAmount', e.target.value)}
             />
             {loanAmount > 0 && (
               <span className="input-hint">₹{Number(loanAmount).toLocaleString('en-IN')}</span>
@@ -202,8 +182,7 @@ export default function NewDeal({ user }) {
             <label>Product *</label>
             <select
               value={product}
-              onChange={(e) => { setProduct(e.target.value); setSubProduct(''); }}
-              disabled={finalized}
+              onChange={(e) => { update('product', e.target.value); update('subProduct', ''); }}
             >
               <option value="">Select Product</option>
               {PRODUCTS.map((p) => <option key={p} value={p}>{p}</option>)}
@@ -213,8 +192,8 @@ export default function NewDeal({ user }) {
             <label>Sub-Product *</label>
             <select
               value={subProduct}
-              onChange={(e) => setSubProduct(e.target.value)}
-              disabled={!product || finalized}
+              onChange={(e) => update('subProduct', e.target.value)}
+              disabled={!product}
             >
               <option value="">Select Sub-Product</option>
               {subProducts.map((sp) => <option key={sp} value={sp}>{sp}</option>)}
@@ -224,8 +203,7 @@ export default function NewDeal({ user }) {
             <label>Branch Category *</label>
             <select
               value={branchCategory}
-              onChange={(e) => setBranchCategory(e.target.value)}
-              disabled={finalized}
+              onChange={(e) => update('branchCategory', e.target.value)}
             >
               <option value="">Select Branch Category</option>
               {BRANCH_CATEGORIES.map((bc) => (
@@ -247,14 +225,11 @@ export default function NewDeal({ user }) {
             onChange={updateBorrower}
             onRemove={removeBorrower}
             isApplicant={i === 0}
-            disabled={finalized}
           />
         ))}
-        {!finalized && (
-          <button type="button" className="btn-secondary" onClick={addCoApplicant}>
-            + Add Co-Applicant
-          </button>
-        )}
+        <button type="button" className="btn-secondary" onClick={addCoApplicant}>
+          + Add Co-Applicant
+        </button>
       </section>
 
       {/* Risk Factors - Common */}
@@ -274,8 +249,7 @@ export default function NewDeal({ user }) {
                   <input
                     type="checkbox"
                     checked={policyDeviations[dev.key] || false}
-                    onChange={(e) => setPolicyDeviations({ ...policyDeviations, [dev.key]: e.target.checked })}
-                    disabled={finalized}
+                    onChange={(e) => update('policyDeviations', { ...policyDeviations, [dev.key]: e.target.checked })}
                   />
                   {dev.label}
                 </label>
@@ -292,8 +266,7 @@ export default function NewDeal({ user }) {
                   name="propertyLocation"
                   value="Within MC Limits"
                   checked={propertyLocation === 'Within MC Limits'}
-                  onChange={(e) => setPropertyLocation(e.target.value)}
-                  disabled={finalized}
+                  onChange={(e) => update('propertyLocation', e.target.value)}
                 />
                 Within MC Limits
               </label>
@@ -303,8 +276,7 @@ export default function NewDeal({ user }) {
                   name="propertyLocation"
                   value="Beyond MC Limits"
                   checked={propertyLocation === 'Beyond MC Limits'}
-                  onChange={(e) => setPropertyLocation(e.target.value)}
-                  disabled={finalized}
+                  onChange={(e) => update('propertyLocation', e.target.value)}
                 />
                 Beyond MC Limits
               </label>
@@ -319,8 +291,7 @@ export default function NewDeal({ user }) {
                   type="radio"
                   name="ltvDeviation"
                   checked={ltvDeviation === true}
-                  onChange={() => !finalized && setLtvDeviation(true)}
-                  disabled={finalized}
+                  onChange={() => update('ltvDeviation', true)}
                 />
                 Yes
               </label>
@@ -329,8 +300,7 @@ export default function NewDeal({ user }) {
                   type="radio"
                   name="ltvDeviation"
                   checked={ltvDeviation === false}
-                  onChange={() => !finalized && setLtvDeviation(false)}
-                  disabled={finalized}
+                  onChange={() => update('ltvDeviation', false)}
                 />
                 No
               </label>
@@ -340,31 +310,16 @@ export default function NewDeal({ user }) {
       </section>
 
       {/* Actions */}
-      {!finalized && (
-        <div className="action-bar">
-          <button className="btn-primary" onClick={handleCalculate}>
-            Calculate ROI
-          </button>
-          {result && !result.error && (
-            <button className="btn-finalize" onClick={handleFinalize}>
-              Finalize ROI
-            </button>
-          )}
-          <button className="btn-ghost" onClick={handleReset}>Reset</button>
-        </div>
-      )}
+      <div className="action-bar">
+        <button className="btn-primary" onClick={handleCalculate}>
+          Calculate ROI
+        </button>
+        <button className="btn-ghost" onClick={handleReset}>Reset</button>
+      </div>
 
-      {finalized && (
-        <div className="finalized-banner">
-          ROI finalized successfully. Deal is now locked.
-          <button className="btn-secondary" onClick={handleReset} style={{ marginLeft: 16 }}>
-            New Deal
-          </button>
-        </div>
-      )}
-
-      {/* Result */}
-      <ROIResult result={result} />
+      <footer className="disclaimer">
+        <strong>&#9888; Disclaimer:</strong> This calculator is for the convenience of customers and may be used at their sole discretion. People Home does not guarantee or promise or forecast any returns and under no circumstances would be liable for any losses in any adverse event.
+      </footer>
     </div>
   );
 }

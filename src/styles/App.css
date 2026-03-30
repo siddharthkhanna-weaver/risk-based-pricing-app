@@ -99,20 +99,20 @@ body {
   font-weight: 500;
 }
 
-.btn-logout {
+.btn-back-header {
   background: none;
-  border: 1px solid var(--gray-300);
-  color: var(--gray-600);
+  border: 1px solid var(--primary);
+  color: var(--primary);
   padding: 6px 14px;
   border-radius: var(--radius);
   cursor: pointer;
   font-size: 13px;
+  font-weight: 500;
   transition: all 0.15s;
 }
 
-.btn-logout:hover {
-  background: var(--gray-100);
-  border-color: var(--gray-400);
+.btn-back-header:hover {
+  background: var(--primary-light);
 }
 
 .app-main {

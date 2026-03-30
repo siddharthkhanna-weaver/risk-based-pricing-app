@@ -1,14 +1,13 @@
 import { useNavigate } from 'react-router-dom';
 import '../styles/Dashboard.css';
 
-export default function Dashboard({ user }) {
+export default function Dashboard() {
   const navigate = useNavigate();
 
   return (
     <div className="dashboard">
       <div className="dashboard-header">
-        <h2>Welcome, {user?.name}</h2>
-        <span className="role-badge">{user?.role}</span>
+        <h2>Welcome</h2>
       </div>
 
       <div className="dashboard-cards">

@@ -49,6 +49,14 @@
   margin-bottom: 16px;
 }
 
+.borrower-card .form-grid {
+  grid-template-columns: 1fr;
+}
+
+.risk-factors-section .form-grid {
+  grid-template-columns: 1fr;
+}
+
 .borrower-header {
   display: flex;
   align-items: center;

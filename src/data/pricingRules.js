@@ -1,23 +1,23 @@
 // Base Rate Grid: customerProfile -> pricingProduct -> branchCategory -> rate
 export const BASE_RATE_GRID = {
   'Formal Salaried': {
-    'Home Loan': { 'Cat A': 12.00, 'Cat B': 12.25, 'Cat C': 12.50 },
-    'Non Home Loan': { 'Cat A': 15.00, 'Cat B': 15.25, 'Cat C': 15.50 },
+    'Home Loan': { 'Cat A': 10.99, 'Cat B': 11.25, 'Cat C': 11.50 },
+    'Non Home Loan': { 'Cat A': 13.99, 'Cat B': 14.25, 'Cat C': 14.50 },
   },
   'Formal Salaried & (SE or IS)': {
-    'Home Loan': { 'Cat A': 12.50, 'Cat B': 12.75, 'Cat C': 13.00 },
-    'Non Home Loan': { 'Cat A': 16.50, 'Cat B': 16.75, 'Cat C': 17.00 },
+    'Home Loan': { 'Cat A': 11.50, 'Cat B': 11.75, 'Cat C': 11.99 },
+    'Non Home Loan': { 'Cat A': 14.99, 'Cat B': 15.25, 'Cat C': 15.50 },
   },
   'Self Employed': {
-    'Home Loan': { 'Cat A': 13.25, 'Cat B': 13.50, 'Cat C': 13.75 },
-    'Non Home Loan': { 'Cat A': 18.00, 'Cat B': 18.25, 'Cat C': 18.50 },
+    'Home Loan': { 'Cat A': 11.99, 'Cat B': 12.25, 'Cat C': 12.50 },
+    'Non Home Loan': { 'Cat A': 15.99, 'Cat B': 16.25, 'Cat C': 16.50 },
   },
   'SE & Informal Salaried': {
-    'Home Loan': { 'Cat A': 13.75, 'Cat B': 14.00, 'Cat C': 14.25 },
+    'Home Loan': { 'Cat A': 12.50, 'Cat B': 12.75, 'Cat C': 12.99 },
     'Non Home Loan': null, // N/A
   },
   'Informal Salaried': {
-    'Home Loan': { 'Cat A': 14.00, 'Cat B': 14.25, 'Cat C': 14.50 },
+    'Home Loan': { 'Cat A': 12.99, 'Cat B': 13.25, 'Cat C': 13.50 },
     'Non Home Loan': null, // N/A
   },
 };
@@ -54,7 +54,7 @@ export const RISK_ADDON_CAP = 2.00;
 export const SPECIAL_PRICING_RULES = [
   { subProduct: 'Home Loan - Top Up', condition: (amt) => amt <= 1000000, markup: 1.00, label: '≤ 10,00,000' },
   { subProduct: 'Home Loan - Top Up', condition: (amt) => amt > 1000000, markup: 2.00, label: '> 10,00,000' },
-  { subProduct: 'Plot + Construction', condition: (amt) => amt > 0, markup: 2.00, label: '> 0' },
+  { subProduct: 'Plot + Construction', condition: (amt) => amt > 0, markup: 1.00, label: '> 0' },
   { subProduct: 'Home Loan classified as NHL', condition: (amt) => amt > 0, markup: 0.50, label: '> 0' },
 ];
 

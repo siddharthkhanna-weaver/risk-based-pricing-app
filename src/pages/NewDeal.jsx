@@ -16,7 +16,7 @@ function emptyBorrower(name = '') {
   return {
     name,
     customerProfile: '',
-    newToCredit: false,
+    newToCredit: null,
     crifScore: '',
     income: '',
   };
@@ -39,7 +39,7 @@ export default function NewDeal({ user }) {
   // Common risk factors
   const [policyDeviations, setPolicyDeviations] = useState({});
   const [propertyLocation, setPropertyLocation] = useState('');
-  const [ltvDeviation, setLtvDeviation] = useState(false);
+  const [ltvDeviation, setLtvDeviation] = useState(null);
 
   // Result
   const [result, setResult] = useState(null);
@@ -48,14 +48,23 @@ export default function NewDeal({ user }) {
 
   const subProducts = product ? getSubProducts(product) : [];
 
+  const clearBankSalariedDeviation = (borrowerList) => {
+    if (!borrowerList.some((b) => b.customerProfile === 'Bank Salaried')) {
+      setPolicyDeviations((prev) => ({ ...prev, bankSalariedWithoutStatutory: false }));
+    }
+  };
+
   const updateBorrower = (index, updated) => {
     const next = [...borrowers];
     next[index] = updated;
     setBorrowers(next);
+    clearBankSalariedDeviation(next);
   };
 
   const removeBorrower = (index) => {
-    setBorrowers(borrowers.filter((_, i) => i !== index));
+    const next = borrowers.filter((_, i) => i !== index);
+    setBorrowers(next);
+    clearBankSalariedDeviation(next);
   };
 
   const addCoApplicant = () => {
@@ -71,11 +80,13 @@ export default function NewDeal({ user }) {
     if (!subProduct) errs.push('Please select a Sub-Product');
     if (!branchCategory) errs.push('Please select a Branch Category');
     if (!propertyLocation) errs.push('Please select a Property Location');
+    if (ltvDeviation === null) errs.push('Please select Deviation of LTV');
 
     borrowers.forEach((b, i) => {
       const label = i === 0 ? 'Applicant' : `Co-Applicant ${i}`;
       if (!b.customerProfile) errs.push(`${label}: Please select a Customer Profile`);
-      if (!b.newToCredit && (!b.crifScore || b.crifScore < 300 || b.crifScore > 900))
+      if (b.newToCredit === null) errs.push(`${label}: Please select New to Credit`);
+      if (b.newToCredit !== true && (!b.crifScore || b.crifScore < 300 || b.crifScore > 900))
         errs.push(`${label}: CRIF Score must be between 300 and 900`);
       if (!b.income || parseFloat(b.income) <= 0) errs.push(`${label}: Income must be greater than 0`);
     });
@@ -128,7 +139,7 @@ export default function NewDeal({ user }) {
     setBorrowers([emptyBorrower()]);
     setPolicyDeviations({});
     setPropertyLocation('');
-    setLtvDeviation(false);
+    setLtvDeviation(null);
     setResult(null);
     setFinalized(false);
     setErrors([]);
@@ -247,13 +258,18 @@ export default function NewDeal({ user }) {
       </section>
 
       {/* Risk Factors - Common */}
-      <section className="form-section">
+      <section className="form-section risk-factors-section">
         <h3>Risk Factors</h3>
         <div className="form-grid">
           <div className="form-group full-width">
             <label>Policy Deviations</label>
             <div className="deviation-list">
-              {R2_DEVIATIONS.map((dev) => (
+              {R2_DEVIATIONS.filter((dev) => {
+                if (dev.key === 'bankSalariedWithoutStatutory') {
+                  return borrowers.some((b) => b.customerProfile === 'Bank Salaried');
+                }
+                return true;
+              }).map((dev) => (
                 <label key={dev.key} className="checkbox-label">
                   <input
                     type="checkbox"
@@ -297,23 +313,27 @@ export default function NewDeal({ user }) {
 
           <div className="form-group">
             <label>Deviation of LTV?</label>
-            <div className="toggle-group">
-              <button
-                type="button"
-                className={`toggle-btn ${ltvDeviation ? 'active' : ''}`}
-                onClick={() => !finalized && setLtvDeviation(true)}
-                disabled={finalized}
-              >
+            <div className="radio-group">
+              <label className="radio-label">
+                <input
+                  type="radio"
+                  name="ltvDeviation"
+                  checked={ltvDeviation === true}
+                  onChange={() => !finalized && setLtvDeviation(true)}
+                  disabled={finalized}
+                />
                 Yes
-              </button>
-              <button
-                type="button"
-                className={`toggle-btn ${!ltvDeviation ? 'active' : ''}`}
-                onClick={() => !finalized && setLtvDeviation(false)}
-                disabled={finalized}
-              >
+              </label>
+              <label className="radio-label">
+                <input
+                  type="radio"
+                  name="ltvDeviation"
+                  checked={ltvDeviation === false}
+                  onChange={() => !finalized && setLtvDeviation(false)}
+                  disabled={finalized}
+                />
                 No
-              </button>
+              </label>
             </div>
           </div>
         </div>

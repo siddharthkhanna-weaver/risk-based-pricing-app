@@ -183,11 +183,11 @@ body {
 
 .form-section h3 {
   font-size: 18px;
-  font-weight: 600;
+  font-weight: 700;
   margin-bottom: 20px;
   padding-bottom: 12px;
-  border-bottom: 1px solid var(--gray-100);
-  color: var(--gray-800);
+  border-bottom: 2px solid var(--primary);
+  color: var(--primary-dark);
 }
 
 .form-grid {
@@ -269,12 +269,17 @@ body {
   grid-column: 1 / -1;
 }
 
-.form-group label {
+.form-group > label:first-child {
   font-size: 13px;
-  font-weight: 600;
-  color: var(--gray-600);
+  font-weight: 700;
+  color: var(--primary-dark);
   text-transform: uppercase;
   letter-spacing: 0.3px;
+  background: var(--primary-light);
+  padding: 4px 10px;
+  border-radius: 4px;
+  border-left: 3px solid var(--primary);
+  width: fit-content;
 }
 
 .form-group input[type="text"],

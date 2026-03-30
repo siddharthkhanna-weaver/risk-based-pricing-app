@@ -51,29 +51,33 @@ export default function BorrowerForm({ borrower, index, onChange, onRemove, isAp
 
         <div className="form-group">
           <label>New to Credit?</label>
-          <div className="toggle-group">
-            <button
-              type="button"
-              className={`toggle-btn ${borrower.newToCredit ? 'active' : ''}`}
-              onClick={() => !disabled && update('newToCredit', true)}
-              disabled={disabled}
-            >
+          <div className="radio-group">
+            <label className="radio-label">
+              <input
+                type="radio"
+                name={`ntc-${index}`}
+                checked={borrower.newToCredit === true}
+                onChange={() => update('newToCredit', true)}
+                disabled={disabled}
+              />
               Yes
-            </button>
-            <button
-              type="button"
-              className={`toggle-btn ${!borrower.newToCredit ? 'active' : ''}`}
-              onClick={() => !disabled && update('newToCredit', false)}
-              disabled={disabled}
-            >
+            </label>
+            <label className="radio-label">
+              <input
+                type="radio"
+                name={`ntc-${index}`}
+                checked={borrower.newToCredit === false}
+                onChange={() => update('newToCredit', false)}
+                disabled={disabled}
+              />
               No
-            </button>
+            </label>
           </div>
         </div>
 
-        {!borrower.newToCredit && (
+        {borrower.newToCredit === false && (
           <div className="form-group">
-            <label>CRIF Score * (300–900)</label>
+            <label>CRIF Score *</label>
             <input
               type="number"
               min="300"

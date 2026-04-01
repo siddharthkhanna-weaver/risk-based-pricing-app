@@ -62,19 +62,26 @@ export function getBaseRate(resolvedProfile, branchCategory, pricingProduct) {
   return { rate, source: `Grid: ${resolvedProfile} × ${pricingProduct} × ${branchCategory}` };
 }
 
-// R0: Select the credit score of the highest-income borrower
+// R0: Select the borrower with the worst (lowest) credit score among those with income > 0
+// NTC is treated as lowest credit score
 export function selectR0Borrower(borrowers) {
-  let maxIncome = -1;
-  let selected = borrowers[0];
-  for (const b of borrowers) {
-    const income = parseFloat(b.income) || 0;
-    if (income > maxIncome) {
-      maxIncome = income;
+  const eligible = borrowers.filter((b) => parseFloat(b.income) > 0);
+  if (eligible.length === 0) return borrowers[0];
+
+  let worstAddon = -Infinity;
+  let selected = eligible[0];
+  for (const b of eligible) {
+    const r1 = calculateR1(b);
+    if (r1.addon > worstAddon) {
+      worstAddon = r1.addon;
       selected = b;
     }
   }
   return selected;
 }
+
+// Scores treated as NTC equivalent
+const NTC_SCORES = [-1, 0, 1, 2, 3, 18];
 
 // R1: Credit Score Risk Band
 export function calculateR1(borrower) {
@@ -83,6 +90,10 @@ export function calculateR1(borrower) {
   }
 
   const score = parseInt(borrower.crifScore);
+  if (NTC_SCORES.includes(score)) {
+    return { addon: R1_NTC_ADDON, label: 'NTC / NTB', score };
+  }
+
   for (const band of R1_BANDS) {
     if (score >= band.min && score <= band.max) {
       return { addon: band.addon, label: band.label, score };

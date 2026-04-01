@@ -69,8 +69,8 @@ export default function NewDeal({ formData, setFormData, resetForm }) {
       const label = i === 0 ? 'Applicant' : `Co-Applicant ${i}`;
       if (!b.customerProfile) errs.push(`${label}: Please select a Customer Profile`);
       if (b.newToCredit === null) errs.push(`${label}: Please select New to Credit`);
-      if (b.newToCredit !== true && (!b.crifScore || b.crifScore < 300 || b.crifScore > 900))
-        errs.push(`${label}: CRIF Score must be between 300 and 900`);
+      if (b.newToCredit !== true && (b.crifScore === '' || b.crifScore === undefined || b.crifScore < -1 || b.crifScore > 900))
+        errs.push(`${label}: CRIF Score must be between -1 and 900`);
       if (!b.income || parseFloat(b.income) <= 0) errs.push(`${label}: Income must be greater than 0`);
     });
 

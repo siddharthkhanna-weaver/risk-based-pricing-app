@@ -80,9 +80,6 @@ export function selectR0Borrower(borrowers) {
   return selected;
 }
 
-// Scores treated as NTC equivalent
-const NTC_SCORES = [-1, 0, 1, 2, 3, 18];
-
 // R1: Credit Score Risk Band
 export function calculateR1(borrower) {
   if (borrower.newToCredit) {
@@ -90,7 +87,7 @@ export function calculateR1(borrower) {
   }
 
   const score = parseInt(borrower.crifScore);
-  if (NTC_SCORES.includes(score)) {
+  if (score >= -50 && score <= 300) {
     return { addon: R1_NTC_ADDON, label: 'NTC / NTB', score };
   }
 

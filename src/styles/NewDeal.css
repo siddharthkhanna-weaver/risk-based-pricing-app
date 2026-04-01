@@ -57,6 +57,39 @@
   grid-template-columns: 1fr;
 }
 
+.r1-grid {
+  width: 100%;
+  max-width: 320px;
+  border-collapse: collapse;
+  font-size: 12px;
+  margin-top: 6px;
+}
+
+.r1-grid th,
+.r1-grid td {
+  border: 1px solid var(--gray-200);
+  padding: 4px 10px;
+  text-align: left;
+}
+
+.r1-grid thead th {
+  background: var(--gray-50);
+  font-weight: 600;
+  color: var(--gray-600);
+  font-size: 11px;
+  text-transform: uppercase;
+}
+
+.r1-grid tbody td {
+  color: var(--gray-700);
+}
+
+.r1-grid tbody td:last-child {
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  font-weight: 500;
+  text-align: right;
+}
+
 .deal-summary {
   display: flex;
   flex-direction: column;

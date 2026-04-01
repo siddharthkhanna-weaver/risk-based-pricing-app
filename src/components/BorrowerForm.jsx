@@ -80,7 +80,7 @@ export default function BorrowerForm({ borrower, index, onChange, onRemove, isAp
             <label>CRIF Score *</label>
             <input
               type="number"
-              min="-1"
+              min="-50"
               max="900"
               placeholder="e.g. 750"
               value={borrower.crifScore || ''}

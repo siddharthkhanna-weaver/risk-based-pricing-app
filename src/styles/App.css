@@ -295,6 +295,17 @@ body {
   transition: border-color 0.15s, box-shadow 0.15s;
 }
 
+/* Hide number input spinners */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
 .form-group input:focus,
 .form-group select:focus {
   outline: none;

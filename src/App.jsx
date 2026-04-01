@@ -20,7 +20,7 @@ const INITIAL_FORM = {
   loanAmount: '',
   product: '',
   subProduct: '',
-  branchCategory: '',
+  branch: '',
   borrowers: [emptyBorrower()],
   policyDeviations: {},
   propertyLocation: '',

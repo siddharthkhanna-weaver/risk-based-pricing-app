@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { PRODUCT_MASTER, BRANCH_CATEGORIES, R2_DEVIATIONS } from '../data/pricingRules';
+import { PRODUCT_MASTER, BRANCH_MASTER, R2_DEVIATIONS } from '../data/pricingRules';
 import { calculateROI } from '../utils/calculator';
 import BorrowerForm from '../components/BorrowerForm';
 import '../styles/NewDeal.css';
@@ -25,7 +25,7 @@ export default function NewDeal({ formData, setFormData, resetForm }) {
   const navigate = useNavigate();
   const [errors, setErrors] = useState([]);
 
-  const { dealNumber, applicantName, loanAmount, product, subProduct, branchCategory, borrowers, policyDeviations, propertyLocation, ltvDeviation } = formData;
+  const { dealNumber, applicantName, loanAmount, product, subProduct, branch, borrowers, policyDeviations, propertyLocation, ltvDeviation } = formData;
 
   const update = (field, value) => setFormData((prev) => ({ ...prev, [field]: value }));
 
@@ -61,7 +61,7 @@ export default function NewDeal({ formData, setFormData, resetForm }) {
     if (!loanAmount || parseFloat(loanAmount) <= 0) errs.push('Loan Amount must be greater than 0');
     if (!product) errs.push('Please select a Product');
     if (!subProduct) errs.push('Please select a Sub-Product');
-    if (!branchCategory) errs.push('Please select a Branch Category');
+    if (!branch) errs.push('Please select a Branch');
     if (!propertyLocation) errs.push('Please select a Property Location');
     if (ltvDeviation === null) errs.push('Please select Deviation of LTV');
 
@@ -90,6 +90,9 @@ export default function NewDeal({ formData, setFormData, resetForm }) {
       name: i === 0 ? applicantName : (b.name || `Co-Applicant ${i}`),
     }));
 
+    const branchEntry = BRANCH_MASTER.find((b) => b.branch === branch);
+    const branchCategory = branchEntry ? branchEntry.category : '';
+
     const res = calculateROI({
       borrowers: borrowersWithNames,
       product,
@@ -115,6 +118,7 @@ export default function NewDeal({ formData, setFormData, resetForm }) {
           loanAmount: parseFloat(loanAmount),
           product,
           subProduct,
+          branch,
           branchCategory,
           borrowers: borrowersWithNames,
           policyDeviations,
@@ -200,14 +204,14 @@ export default function NewDeal({ formData, setFormData, resetForm }) {
             </select>
           </div>
           <div className="form-group">
-            <label>Branch Category *</label>
+            <label>Branch *</label>
             <select
-              value={branchCategory}
-              onChange={(e) => update('branchCategory', e.target.value)}
+              value={branch}
+              onChange={(e) => update('branch', e.target.value)}
             >
-              <option value="">Select Branch Category</option>
-              {BRANCH_CATEGORIES.map((bc) => (
-                <option key={bc.value} value={bc.value}>{bc.label}</option>
+              <option value="">Select Branch</option>
+              {BRANCH_MASTER.map((b) => (
+                <option key={b.branch} value={b.branch}>{b.branch}</option>
               ))}
             </select>
           </div>

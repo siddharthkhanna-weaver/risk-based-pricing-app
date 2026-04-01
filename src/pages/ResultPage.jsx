@@ -49,6 +49,10 @@ export default function ResultPage() {
                 </div>
                 <div className="summary-item">
                   <span className="sg-label">Branch</span>
+                  <span className="sg-value">{dealDetails.branch}</span>
+                </div>
+                <div className="summary-item">
+                  <span className="sg-label">Category</span>
                   <span className="sg-value">{dealDetails.branchCategory}</span>
                 </div>
               </div>

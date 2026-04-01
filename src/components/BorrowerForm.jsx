@@ -77,7 +77,7 @@ export default function BorrowerForm({ borrower, index, onChange, onRemove, isAp
 
         {borrower.newToCredit === false && (
           <div className="form-group">
-            <label>CRIF Score *</label>
+            <label>Credit Score *</label>
             <input
               type="number"
               min="-50"

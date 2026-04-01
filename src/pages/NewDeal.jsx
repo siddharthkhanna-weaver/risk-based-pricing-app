@@ -70,7 +70,7 @@ export default function NewDeal({ formData, setFormData, resetForm }) {
       if (!b.customerProfile) errs.push(`${label}: Please select a Customer Profile`);
       if (b.newToCredit === null) errs.push(`${label}: Please select New to Credit`);
       if (b.newToCredit !== true && (b.crifScore === '' || b.crifScore === undefined || b.crifScore < -50 || b.crifScore > 900))
-        errs.push(`${label}: CRIF Score must be between -50 and 900`);
+        errs.push(`${label}: Credit Score must be between -50 and 900`);
       if (b.income === '' || b.income === undefined || parseFloat(b.income) < 0) errs.push(`${label}: Income must be 0 or greater`);
     });
 

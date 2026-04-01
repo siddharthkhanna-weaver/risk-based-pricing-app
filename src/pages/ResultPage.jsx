@@ -74,7 +74,7 @@ export default function ResultPage() {
                   <span className="sg-value">₹{Number(dealDetails.borrowers[0].income).toLocaleString('en-IN')}</span>
                 </div>
                 <div className="summary-item">
-                  <span className="sg-label">CRIF</span>
+                  <span className="sg-label">Credit Score</span>
                   <span className="sg-value">{dealDetails.borrowers[0].newToCredit ? 'NTC' : dealDetails.borrowers[0].crifScore}</span>
                 </div>
               </div>
@@ -98,7 +98,7 @@ export default function ResultPage() {
                       <span className="sg-value">₹{Number(b.income).toLocaleString('en-IN')}</span>
                     </div>
                     <div className="summary-item">
-                      <span className="sg-label">CRIF</span>
+                      <span className="sg-label">Credit Score</span>
                       <span className="sg-value">{b.newToCredit ? 'NTC' : b.crifScore}</span>
                     </div>
                   </div>
@@ -112,9 +112,6 @@ export default function ResultPage() {
                 {riskFactors.map((rf, i) => (
                   <span key={i} className="risk-tag">{rf}</span>
                 ))}
-                {riskFactors.length === 1 && !dealDetails.ltvDeviation && (
-                  <span className="risk-tag none">No additional risk factors</span>
-                )}
               </div>
             </div>
           </div>

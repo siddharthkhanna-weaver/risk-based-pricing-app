@@ -39,6 +39,8 @@ export default function ResultPage() {
                   <span className="sg-label">Deal No.</span>
                   <span className="sg-value">{dealDetails.dealNumber}</span>
                 </div>
+              </div>
+              <div className="summary-row-inline">
                 <div className="summary-item">
                   <span className="sg-label">Loan Amount</span>
                   <span className="sg-value">₹{Number(dealDetails.loanAmount).toLocaleString('en-IN')}</span>

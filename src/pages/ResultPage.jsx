@@ -125,7 +125,7 @@ export default function ResultPage() {
       </div>
 
       <footer className="result-disclaimer">
-        <strong>&#9888; Disclaimer:</strong> This calculator is for the convenience of customers and may be used at their sole discretion. People Home does not guarantee or promise or forecast any returns and under no circumstances would be liable for any losses in any adverse event.
+        <strong>&#9888; Disclaimer:</strong> The rate of interest communicated herein is for indicative purposes only and shall not be considered final/relied on in any form or manner. This communication shall not be construed as an offer/invitation to offer or commitment on behalf of People Home Finance Limited (PHFL), and PHFL shall not be held liable for any claim arising therefrom.
       </footer>
     </div>
   );

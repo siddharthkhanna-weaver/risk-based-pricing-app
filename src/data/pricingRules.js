@@ -62,6 +62,7 @@ export const SPECIAL_PRICING_RULES = [
 export const PRODUCT_MASTER = [
   { product: 'Home Loan', subProduct: 'Home Loan', pricingProduct: 'Home Loan' },
   { product: 'Home Loan', subProduct: 'Extension / Improvement', pricingProduct: 'Home Loan' },
+  { product: 'Home Loan', subProduct: 'Self Construction', pricingProduct: 'Home Loan' },
   { product: 'Home Loan', subProduct: 'Home Loan - BT', pricingProduct: 'Home Loan' },
   { product: 'Home Loan', subProduct: 'Plot + Construction', pricingProduct: 'Home Loan' },
   { product: 'Home Loan', subProduct: 'OSL', pricingProduct: 'Home Loan' },
